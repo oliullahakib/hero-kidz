@@ -1,4 +1,3 @@
-import React from 'react'
 import NavLink from './NavLink'
 import Logo from './Logo'
 import Link from 'next/link'
@@ -7,6 +6,7 @@ const Navbar = () => {
     const links = [
         {href: "/", label: "Home"},
         {href: "/about", label: "About"},
+        {href: "/all-products", label: "All Products"},
         {href: "/contact", label: "Contact"},
     ]
     return (
