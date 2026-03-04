@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { myFont } from '@/app/layout'
 const Banner = () => {
   return (
-    <div className={`${myFont.className} flex items-center justify-between`}>
+    <div className={`${myFont.className} flex flex-col md:flex-row items-center justify-between gap-10 sm:gap-0 px-3 sm:px-0`}>
         <div className='space-y-4'>
             <h1 className='text-5xl font-bold leading-15'>আপনার শিশুকে দিন  <br /> <span className='text-primary'>একটি উজ্জ্বল ভবিষ্যৎ</span></h1>
             <p className='text-lg'>আপনার সন্তানের শৈশবকে আনন্দময় করে তুলুন আমাদের আকর্ষণীয় খেলনার সম্ভার থেকে বেছে নিয়ে। প্রতিটি খেলনা শিশুদের কল্পনাশক্তি, সৃজনশীলতা এবং শেখার আগ্রহ বাড়াতে সাহায্য করবে।</p>
