@@ -1,5 +1,6 @@
 import data from "@/data/toys.json";
 import ProductCard from "@/components/Shared/ProductCard";
+import Link from "next/link";
 
 const TopProducts = () => {
     return (
@@ -23,9 +24,9 @@ const TopProducts = () => {
             </div>
 
             <div className="text-center mt-12">
-                <button className="btn btn-outline btn-primary rounded-full px-10">
+                <Link href="/all-products" className="btn btn-outline btn-primary rounded-full px-10">
                     View All Products
-                </button>
+                </Link>
             </div>
         </section>
     );
