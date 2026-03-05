@@ -198,7 +198,7 @@ const ProductDetails = async ({ params }) => {
                                     <div className="absolute inset-0 bg-red-600/10 group-hover:bg-red-600/0 transition-colors duration-500" />
                                     <div className="absolute inset-0 flex items-center justify-center">
                                         <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center shadow-2xl transition-transform duration-500 group-hover:scale-110">
-                                            <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[18px] border-l-white border-b-[10px] border-b-transparent ml-2" />
+                                            <div className="w-0 h-0 border-t-10 border-t-transparent border-l-18 border-l-white border-b-10 border-b-transparent ml-2" />
                                         </div>
                                     </div>
                                     <div className="absolute bottom-8 left-8 right-8 text-white">
