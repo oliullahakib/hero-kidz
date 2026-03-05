@@ -8,7 +8,7 @@ const ProductCard = ({ product }) => {
     const discountedPrice = discount ? (price - (price * discount) / 100).toFixed(2) : price;
 
     return (
-        <div className="group relative bg-base-100 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-base-200/50 hover:-translate-y-2">
+        <Link href={`product-details/${product._id}`}><div className="group relative bg-base-100 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-base-200/50 hover:-translate-y-2">
             {/* Discount Badge */}
             {discount > 0 && (
                 <div className="absolute top-4 left-4 z-10">
@@ -23,7 +23,9 @@ const ProductCard = ({ product }) => {
                 <Image
                     src={image}
                     alt={title}
-                    fill
+                    loading="eager"
+                    width={400}
+                    height={400}
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 {/* Overlay on Hover */}
@@ -73,7 +75,7 @@ const ProductCard = ({ product }) => {
                     </button>
                 </div>
             </div>
-        </div>
+        </div></Link>
     );
 };
 
