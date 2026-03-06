@@ -5,7 +5,7 @@ import { hash } from "bcryptjs";
 export const creatUser = async (payload) => {
     const { name, email, password, provider } = payload;
     // check user exist or not
-    const userExist = await (await dbConnect(collections.Users)).findOne({email});
+    const userExist = await (await dbConnect(collections.Users)).findOne({ email });
     if (userExist) {
         return {
             error: "User already exists"
@@ -21,5 +21,6 @@ export const creatUser = async (payload) => {
     }
     // send user to db
     const result = await (await dbConnect(collections.Users)).insertOne(newUser);
+    result.insertedId = result?.insertedId?.toString();
     return result;
 }

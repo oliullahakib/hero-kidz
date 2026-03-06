@@ -5,10 +5,11 @@ import { FaGoogle, FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
 import Logo from '@/components/Shared/Logo';
 import { creatUser } from '@/action/server/auth';
 import { useRouter } from 'next/navigation';
+import Swal from 'sweetalert2';
 
 const SignUpPage = () => {
     const router = useRouter();
-    const handleSignup = async(e) => {
+    const handleSignup = async (e) => {
         e.preventDefault();
         const form = e.target;
         const name = form.name.value;
@@ -16,12 +17,32 @@ const SignUpPage = () => {
         const password = form.password.value;
         const provider = "credentials"
         const signupData = { name, email, password, provider };
-        const result = await creatUser(signupData);
-        console.log(result);
-        if(result.insertedId){
-            alert("User created successfully");
-            form.reset();
-            router.push("/login");
+
+        try {
+            const result = await creatUser(signupData);
+            if (result.insertedId) {
+                Swal.fire({
+                    title: "Success!",
+                    text: "User created successfully",
+                    icon: "success",
+                })
+                form.reset();
+                router.push("/login");
+            } else if (result.error) {
+                Swal.fire({
+                    title: "Error!",
+                    text: result.error,
+                    icon: "error",
+                    confirmButtonColor: "#d33"
+                });
+            }
+        } catch (error) {
+            Swal.fire({
+                title: "Error!",
+                text: "Something went wrong. Please try again.",
+                icon: "error",
+                confirmButtonColor: "#d33"
+            });
         }
     };
 
