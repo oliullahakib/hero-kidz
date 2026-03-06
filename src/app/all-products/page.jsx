@@ -5,7 +5,6 @@ import React from 'react'
 
 const AllProductsPage = async({searchParams}) => {
   const {search} = await searchParams
-  console.log(search)
   const products = await getAllProducts(search)
   return (
     <div>
