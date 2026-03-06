@@ -2,11 +2,16 @@
 import { collections, dbConnect } from "@/lib/dbConnect";
 import { ObjectId } from "mongodb";
 
-export const getAllProducts = async () => {
+export const getAllProducts = async (search = '') => {
     try {
         const productCollection = await dbConnect(collections.Products);
         if (!productCollection) return [];
-        const products = await productCollection.find().toArray();
+        const products = await productCollection.find({
+            $or: [
+                { name: { $regex: search, $options: 'i' } },
+                { description: { $regex: search, $options: 'i' } },
+            ]
+        }).toArray();
        return products.map(product => ({...product, _id: product._id.toString()}));
     } catch (error) {
         console.log("Error in getAllProducts:", error);
