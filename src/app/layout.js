@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
         className={`${poppins.variable}  antialiased`}
       >
         <Navbar />
-       <div className="max-w-7xl mx-auto space-y-10 my-10">
+       <div className="max-w-7xl mx-auto">
          {children}
        </div>
        <Footer/>

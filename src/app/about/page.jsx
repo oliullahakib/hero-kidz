@@ -4,7 +4,7 @@ import { FaHeart, FaLightbulb, FaShieldAlt, FaRocket } from 'react-icons/fa';
 
 const AboutPage = () => {
     return (
-        <div className="bg-base-100 min-h-screen">
+        <div className="bg-base-100 min-h-screen py-5">
             {/* Hero Section */}
             <section className="relative overflow-hidden ">
                 <div className="max-w-7xl mx-auto px-4 text-center space-y-8 relative z-10">
