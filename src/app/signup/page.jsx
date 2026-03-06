@@ -1,9 +1,30 @@
+'use client'
 import React from 'react';
 import Link from 'next/link';
-import { FaGoogle,FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
+import { FaGoogle, FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
 import Logo from '@/components/Shared/Logo';
+import { creatUser } from '@/action/server/auth';
+import { useRouter } from 'next/navigation';
 
 const SignUpPage = () => {
+    const router = useRouter();
+    const handleSignup = async(e) => {
+        e.preventDefault();
+        const form = e.target;
+        const name = form.name.value;
+        const email = form.email.value;
+        const password = form.password.value;
+        const provider = "credentials"
+        const signupData = { name, email, password, provider };
+        const result = await creatUser(signupData);
+        console.log(result);
+        if(result.insertedId){
+            alert("User created successfully");
+            form.reset();
+            router.push("/login");
+        }
+    };
+
     return (
         <div className="min-h-screen bg-base-100 flex items-center justify-center p-4 relative overflow-hidden">
             {/* Background Decorations */}
@@ -23,7 +44,7 @@ const SignUpPage = () => {
 
                     {/* Social Login */}
                     <div className="grid grid-cols-1 gap-4">
-                        <button className="btn btn-outline border-base-300 rounded-2xl gap-3 hover:bg-base-200 hover:text-base-content capitalize">
+                        <button type="button" className="btn btn-outline border-base-300 rounded-2xl gap-3 hover:bg-base-200 hover:text-base-content capitalize">
                             <FaGoogle className="text-error" />
                             Google
                         </button>
@@ -32,7 +53,7 @@ const SignUpPage = () => {
                     <div className="divider text-base-content/30 text-xs uppercase font-bold tracking-widest">or email</div>
 
                     {/* Form */}
-                    <form className="space-y-4">
+                    <form onSubmit={handleSignup} className="space-y-4">
                         <div className="form-control">
                             <div className="relative group">
                                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-base-content/30 group-focus-within:text-primary transition-colors">
@@ -40,6 +61,7 @@ const SignUpPage = () => {
                                 </span>
                                 <input
                                     type="text"
+                                    name="name"
                                     placeholder="Full Name"
                                     className="input input-bordered w-full pl-12 h-14 rounded-2xl bg-base-200/50 border-base-300 focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all font-medium"
                                     required
@@ -54,6 +76,7 @@ const SignUpPage = () => {
                                 </span>
                                 <input
                                     type="email"
+                                    name="email"
                                     placeholder="Email Address"
                                     className="input input-bordered w-full pl-12 h-14 rounded-2xl bg-base-200/50 border-base-300 focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all font-medium"
                                     required
@@ -68,6 +91,7 @@ const SignUpPage = () => {
                                 </span>
                                 <input
                                     type="password"
+                                    name="password"
                                     placeholder="Password"
                                     className="input input-bordered w-full pl-12 h-14 rounded-2xl bg-base-200/50 border-base-300 focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all font-medium"
                                     required
@@ -75,7 +99,7 @@ const SignUpPage = () => {
                             </div>
                         </div>
 
-                        <button className="btn btn-primary w-full h-14 rounded-2xl text-lg font-black shadow-xl shadow-primary/20 mt-4 capitalize">
+                        <button type="submit" className="btn btn-primary w-full h-14 rounded-2xl text-lg font-black shadow-xl shadow-primary/20 mt-4 capitalize">
                             Create Account
                         </button>
                     </form>

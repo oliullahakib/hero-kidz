@@ -1,9 +1,18 @@
+"use client"
 import React from 'react';
 import Link from 'next/link';
 import { FaGoogle, FaEnvelope, FaLock } from 'react-icons/fa';
 import Logo from '@/components/Shared/Logo';
 
 const LoginPage = () => {
+    const handleLogin = (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const email = form.email.value;
+        const password = form.password.value;
+        const loginData = { email, password };
+        console.log("Login Data:", loginData);
+    };
     return (
         <div className="min-h-screen bg-base-100 flex items-center justify-center p-4 relative overflow-hidden">
             {/* Background Decorations */}
@@ -32,7 +41,7 @@ const LoginPage = () => {
                     <div className="divider text-base-content/30 text-xs uppercase font-bold tracking-widest">or email</div>
 
                     {/* Form */}
-                    <form className="space-y-4">
+                    <form onSubmit={handleLogin} className="space-y-4">
                         <div className="form-control">
                             <div className="relative group">
                                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-base-content/30 group-focus-within:text-primary transition-colors">
