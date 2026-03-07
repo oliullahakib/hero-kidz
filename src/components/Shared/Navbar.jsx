@@ -1,6 +1,7 @@
 import NavLink from './NavLink'
 import Logo from './Logo'
 import Link from 'next/link'
+import AuthButtons from '../Buttons/AuthButtons'
 
 const Navbar = () => {
     const links = [
@@ -43,7 +44,7 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <Link href="/login" className="btn btn-primary btn-outline">Login</Link>
+                <AuthButtons />
             </div>
         </div>
         </div>

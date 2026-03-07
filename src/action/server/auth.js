@@ -1,5 +1,4 @@
 "use server"
-
 import { collections, dbConnect } from "@/lib/dbConnect";
 import { hash } from "bcryptjs";
 export const creatUser = async (payload) => {

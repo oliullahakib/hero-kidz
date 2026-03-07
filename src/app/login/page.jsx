@@ -3,21 +3,61 @@ import React from 'react';
 import Link from 'next/link';
 import { FaGoogle, FaEnvelope, FaLock } from 'react-icons/fa';
 import Logo from '@/components/Shared/Logo';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import Swal from 'sweetalert2';
 
 const LoginPage = () => {
-    const handleLogin = (e) => {
+    const router = useRouter();
+
+    const handleLogin = async (e) => {
         e.preventDefault();
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
-        const loginData = { email, password };
-        console.log("Login Data:", loginData);
+
+        try {
+            const result = await signIn("credentials", {
+                email,
+                password,
+                redirect: true,
+                callbackUrl: "/all-products",
+            });
+
+            if (result.error) {
+                Swal.fire({
+                    title: "Error!",
+                    text: "Invalid email or password",
+                    icon: "error",
+                    confirmButtonColor: "#d33"
+                });
+            } else {
+                Swal.fire({
+                    title: "Welcome Back!",
+                    text: "Login successful",
+                    icon: "success",
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+                form.reset();
+                router.push("/");
+                router.refresh();
+            }
+        } catch (error) {
+            Swal.fire({
+                title: "Error!",
+                text: "Something went wrong. Please try again.",
+                icon: "error",
+                confirmButtonColor: "#d33"
+            });
+        }
     };
+
     return (
         <div className="min-h-screen bg-base-100 flex items-center justify-center p-4 relative overflow-hidden">
             {/* Background Decorations */}
             <div className="absolute top-0 left-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-            <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
+            <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2" />
 
             <div className="max-w-md w-full relative z-10 transition-all duration-500">
                 <div className="bg-base-100 rounded-[2.5rem] border border-base-200 shadow-2xl p-8 md:p-12 space-y-8">
@@ -32,7 +72,7 @@ const LoginPage = () => {
 
                     {/* Social Login */}
                     <div className="grid grid-cols-1 gap-4">
-                        <button className="btn btn-outline border-base-300 rounded-2xl gap-3 hover:bg-base-200 hover:text-base-content capitalize">
+                        <button type="button" className="btn btn-outline border-base-300 rounded-2xl gap-3 hover:bg-base-200 hover:text-base-content capitalize">
                             <FaGoogle className="text-error" />
                             Google
                         </button>
@@ -49,6 +89,7 @@ const LoginPage = () => {
                                 </span>
                                 <input
                                     type="email"
+                                    name="email"
                                     placeholder="Email Address"
                                     className="input input-bordered w-full pl-12 h-14 rounded-2xl bg-base-200/50 border-base-300 focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all font-medium"
                                     required
@@ -63,6 +104,7 @@ const LoginPage = () => {
                                 </span>
                                 <input
                                     type="password"
+                                    name="password"
                                     placeholder="Password"
                                     className="input input-bordered w-full pl-12 h-14 rounded-2xl bg-base-200/50 border-base-300 focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all font-medium"
                                     required
@@ -70,7 +112,7 @@ const LoginPage = () => {
                             </div>
                         </div>
 
-                        <button className="btn btn-primary w-full h-14 rounded-2xl text-lg font-black shadow-xl shadow-primary/20 mt-4 capitalize">
+                        <button type="submit" className="btn btn-primary w-full h-14 rounded-2xl text-lg font-black shadow-xl shadow-primary/20 mt-4 capitalize">
                             Login Now
                         </button>
                     </form>
