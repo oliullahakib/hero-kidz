@@ -10,27 +10,49 @@ import { useSearchParams } from 'next/navigation';
 
 const LoginPage = () => {
     const router = useRouter();
-const params = useSearchParams();
-console.log(
-    params.get("callbackUrl" || " ")
-)
+    const params = useSearchParams();
     const handleLogin = async (e) => {
         e.preventDefault();
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
 
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+
         try {
             const result = await signIn("credentials", {
                 email,
                 password,
-                redirect: true,
-                callbackUrl: params.get("callbackUrl" || " "),
+                redirect: false,
             });
 
             if (result.ok) {
+                Toast.fire({
+                    icon: "success",
+                    title: "Signed in successfully"
+                });
                 form.reset();
-            } 
+                const callbackUrl = params.get("callbackUrl") || "/";
+                router.push(callbackUrl==="/login"? "/": callbackUrl);
+                router.refresh();
+            } else {
+                Swal.fire({
+                    title: "Error!",
+                    text: "Invalid email or password",
+                    icon: "error",
+                    confirmButtonColor: "#d33"
+                });
+            }
         } catch (error) {
             Swal.fire({
                 title: "Error!",
