@@ -64,9 +64,15 @@ export const authOptions = {
             return true
         },
         async session({ session, token, user }) {
+            session.user.role = token.role;
             return session
         },
         async jwt({ token, user, account, profile, isNewUser }) {
+              const db = await dbConnect(collections.Users);
+                const userExist = await db.findOne({email: token.email});
+                if (userExist) {
+                    token.role = userExist.role;
+                }
             return token
         }
     }
