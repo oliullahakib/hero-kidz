@@ -7,6 +7,7 @@ import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
 import { useSearchParams } from 'next/navigation';
+import SocialLogin from '@/components/Buttons/SocialLogin';
 
 const LoginPage = () => {
     const router = useRouter();
@@ -81,12 +82,7 @@ const LoginPage = () => {
                     </div>
 
                     {/* Social Login */}
-                    <div className="grid grid-cols-1 gap-4">
-                        <button type="button" className="btn btn-outline border-base-300 rounded-2xl gap-3 hover:bg-base-200 hover:text-base-content capitalize">
-                            <FaGoogle className="text-error" />
-                            Google
-                        </button>
-                    </div>
+                    <SocialLogin />
 
                     <div className="divider text-base-content/30 text-xs uppercase font-bold tracking-widest">or email</div>
 

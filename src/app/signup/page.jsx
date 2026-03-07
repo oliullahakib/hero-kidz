@@ -1,11 +1,12 @@
 'use client'
 import React from 'react';
 import Link from 'next/link';
-import { FaGoogle, FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
+import { FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
 import Logo from '@/components/Shared/Logo';
 import { creatUser } from '@/action/server/auth';
 import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
+import SocialLogin from '@/components/Buttons/SocialLogin';
 
 const SignUpPage = () => {
     const router = useRouter();
@@ -64,12 +65,7 @@ const SignUpPage = () => {
                     </div>
 
                     {/* Social Login */}
-                    <div className="grid grid-cols-1 gap-4">
-                        <button type="button" className="btn btn-outline border-base-300 rounded-2xl gap-3 hover:bg-base-200 hover:text-base-content capitalize">
-                            <FaGoogle className="text-error" />
-                            Google
-                        </button>
-                    </div>
+                    <SocialLogin />
 
                     <div className="divider text-base-content/30 text-xs uppercase font-bold tracking-widest">or email</div>
 
