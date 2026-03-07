@@ -41,10 +41,35 @@ export const authOptions = {
             }
         }),
         GoogleProvider({
-    clientId: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET
-  })
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET
+        })
     ],
+    callbacks: {
+        async signIn({ user, account, profile, email, credentials }) {
+            if (account?.provider === 'google') {
+                const db = await dbConnect(collections.Users);
+                const userExist = await db.findOne({ email:user.email });
+                if (!userExist) {
+                    const newUser = {
+                        name: user.name,
+                        email: user.email,
+                        provider: account.provider,
+                        providerAccountId: account.providerAccountId,
+                        role: 'user'
+                    }
+                    await db.insertOne(newUser);
+                }
+            }
+            return true
+        },
+        async session({ session, token, user }) {
+            return session
+        },
+        async jwt({ token, user, account, profile, isNewUser }) {
+            return token
+        }
+    }
 }
 
 const handler = NextAuth(authOptions)

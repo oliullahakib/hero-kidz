@@ -1,8 +1,9 @@
-import data from "@/data/toys.json";
 import ProductCard from "@/components/Shared/ProductCard";
 import Link from "next/link";
+import { getAllProducts } from "@/action/server/products";
 
-const TopProducts = () => {
+const TopProducts = async () => {
+    const products = await getAllProducts();
     return (
         <section className="py-16">
             <div className="text-center mb-12 space-y-4">
@@ -18,7 +19,7 @@ const TopProducts = () => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 px-4 sm:px-0">
-                {data.slice(0, 4).map((toy, index) => (
+                {products.slice(0, 4).map((toy, index) => (
                     <ProductCard key={index} product={toy} />
                 ))}
             </div>

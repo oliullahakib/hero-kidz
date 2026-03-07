@@ -13,7 +13,6 @@ const AddToCartButton = ({product,children,className}) => {
     if(session.status === "unauthenticated") {
       router.push(`/login?callbackUrl=${path}`)
     }
-    console.log(product)
   }
   return (
     <button onClick={addToCart} className={className}>{children}</button>
