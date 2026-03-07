@@ -5,7 +5,6 @@ import { signOut, useSession } from 'next-auth/react'
 
 const AuthButtons = () => {
     const session = useSession();
-    console.log(session);
     if(session.status === "authenticated") {
         return (
             <button onClick={() => signOut()} className="btn btn-primary btn-outline">Logout</button>

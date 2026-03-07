@@ -6,10 +6,14 @@ import Logo from '@/components/Shared/Logo';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
+import { useSearchParams } from 'next/navigation';
 
 const LoginPage = () => {
     const router = useRouter();
-
+const params = useSearchParams();
+console.log(
+    params.get("callbackUrl" || " ")
+)
     const handleLogin = async (e) => {
         e.preventDefault();
         const form = e.target;
@@ -21,28 +25,12 @@ const LoginPage = () => {
                 email,
                 password,
                 redirect: true,
-                callbackUrl: "/all-products",
+                callbackUrl: params.get("callbackUrl" || " "),
             });
 
-            if (result.error) {
-                Swal.fire({
-                    title: "Error!",
-                    text: "Invalid email or password",
-                    icon: "error",
-                    confirmButtonColor: "#d33"
-                });
-            } else {
-                Swal.fire({
-                    title: "Welcome Back!",
-                    text: "Login successful",
-                    icon: "success",
-                    timer: 1500,
-                    showConfirmButton: false
-                });
+            if (result.ok) {
                 form.reset();
-                router.push("/");
-                router.refresh();
-            }
+            } 
         } catch (error) {
             Swal.fire({
                 title: "Error!",

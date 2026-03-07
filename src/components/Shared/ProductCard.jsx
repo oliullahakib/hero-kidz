@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import AddToCartButton from "../Buttons/AddToCartButton";
 
 const ProductCard = ({ product }) => {
     const { title, image, price, ratings, reviews, discount } = product;
@@ -70,9 +71,9 @@ const ProductCard = ({ product }) => {
                         </span>
                     </div>
 
-                    <button className="btn btn-primary btn-sm rounded-full px-5 shadow-md hover:shadow-primary/30 transition-all duration-300 hover:scale-105">
+                    <AddToCartButton product={product} className="btn btn-primary btn-sm rounded-full px-5 shadow-md hover:shadow-primary/30 transition-all duration-300 hover:scale-105">
                         Add
-                    </button>
+                    </AddToCartButton>
                 </div>
             </div>
         </div></Link>

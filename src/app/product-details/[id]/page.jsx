@@ -1,4 +1,5 @@
 import { getSingleProduct } from '@/action/server/products'
+import AddToCartButton from '@/components/Buttons/AddToCartButton'
 import Image from 'next/image'
 import React from 'react'
 import { FaStar, FaShoppingBag, FaTruck, FaShieldAlt, FaUndo, FaYoutube } from 'react-icons/fa'
@@ -155,10 +156,10 @@ const ProductDetails = async ({ params }) => {
                                 <button className="btn btn-ghost btn-circle btn-sm font-black text-xl hover:bg-base-300">+</button>
                             </div> */}
 
-                            <button className="btn btn-primary rounded-2xl flex-1 h-16 text-xl font-black shadow-2xl shadow-primary/40 gap-4 group">
+                            <AddToCartButton product={product} className="btn btn-primary rounded-2xl flex-1 h-16 text-xl font-black shadow-2xl shadow-primary/40 gap-4 group">
                                 <FaShoppingBag className="transition-transform group-hover:scale-125" />
                                 Add to Cart
-                            </button>
+                            </AddToCartButton>
                         </div>
 
                         {/* Q&A Section */}
