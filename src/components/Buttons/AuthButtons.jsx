@@ -21,7 +21,7 @@ const AuthButtons = () => {
             onClick={() => setIsOpen(!isOpen)}
             className="flex items-center focus:outline-none group transition-all duration-300 transform hover:scale-105"
           >
-            <div className="relative p-0.5 rounded-full bg-gradient-to-tr from-primary to-secondary shadow-lg">
+            <div className="relative p-0.5 rounded-full bg-linear-to-tr from-primary to-secondary shadow-lg">
               <Image
                 className='rounded-full border-2 border-base-100 object-cover'
                 src={session?.user?.image || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStJqB_VR-jFUwuUGZfnw0P2SkD2m7jlluAzQ&s"}
