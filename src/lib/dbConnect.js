@@ -5,7 +5,8 @@ const dbName = process.env.DB_NAME;
 
 export const collections = {
     Products: "products",
-    Users: "users"
+    Users: "users",
+    Cart: "cart",
 };
 
 if (!uri) {
