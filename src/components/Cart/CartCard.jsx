@@ -1,9 +1,11 @@
 "use client"
 import Image from 'next/image'
-import { removeCartFromDb } from '@/action/server/cart'
+import { removeCartFromDb, updateQuantity } from '@/action/server/cart'
 import Swal from 'sweetalert2'
+import { useState } from 'react'
 
 const CartCard = ({ product,setItems }) => {
+    const [loading,setLoading] = useState(false)
     const handleDeleteCart = async () => {
         Swal.fire({
             title: "Are you sure?",
@@ -30,6 +32,22 @@ const CartCard = ({ product,setItems }) => {
             }
         });
 
+    }
+    const incrimentQuantity = async(id)=>{
+        setLoading(true)
+        const result = await updateQuantity(id,1)
+        if(result.success){
+            setItems(prev=>prev.map(item=> item._id ==id?{...item,quantity:item.quantity+1}:item))
+        }
+        setLoading(false)
+    }
+    const decrimentQuantity = async(id)=>{
+        setLoading(true)
+        const result = await updateQuantity(id,-1)
+        if(result.success){
+            setItems(prev=>prev.map(item=> item._id ==id?{...item,quantity:item.quantity-1}:item))
+        }
+        setLoading(false)
     }
     return (
         <div className="bg-base-100 rounded-2xl shadow-md border border-base-200 overflow-hidden hover:shadow-lg transition-shadow duration-300">
@@ -64,9 +82,10 @@ const CartCard = ({ product,setItems }) => {
                         <div className="flex items-center gap-4">
                             <span className="text-2xl font-black text-primary">৳{product.price.toFixed(2)}</span>
                             <div className="join bg-base-200 rounded-lg p-1">
-                                <button className="btn btn-ghost btn-xs join-item">-</button>
+                                <button disabled={product?.quantity <= 1 || loading} 
+                                onClick={()=>decrimentQuantity(product._id)} className="btn btn-ghost btn-xs join-item">-</button>
                                 <input type="text" value={product.quantity} readOnly className="w-8 text-center bg-transparent border-none focus:outline-none text-xs font-bold join-item" />
-                                <button className="btn btn-ghost btn-xs join-item">+</button>
+                                <button disabled={product?.quantity >= 10 || loading} onClick={()=>incrimentQuantity(product._id)} className="btn btn-ghost btn-xs join-item">+</button>
                             </div>
                         </div>
                         <div className="text-right">

@@ -54,3 +54,12 @@ export const removeCartFromDb = async(id)=>{
     // }
     return {success: Boolean(result.deletedCount)}
 }
+export const updateQuantity = async(id,quantity)=>{
+    const {user} = await getServerSession(authOptions)
+    if(!user){
+        return {success: false, message: "Please login first"}
+    }
+    const query ={email: user.email, _id: new ObjectId(id)}
+    const result = await cartCollection.updateOne(query, {$inc: {quantity:quantity}})
+    return {success: Boolean(result.modifiedCount)}
+}
