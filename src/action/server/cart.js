@@ -1,5 +1,4 @@
 'use server'
-
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import { collections, dbConnect } from "@/lib/dbConnect"
 import { ObjectId } from "mongodb"
@@ -50,8 +49,8 @@ export const removeCartFromDb = async(id)=>{
     }
     const query ={email: user.email, _id: new ObjectId(id)}
     const result = await cartCollection.deleteOne(query)
-    if(Boolean(result.deletedCount)){
-        revalidatePath('/cart')
-    }
+    // if(Boolean(result.deletedCount)){
+    //     revalidatePath('/cart')
+    // }
     return {success: Boolean(result.deletedCount)}
 }

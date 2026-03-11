@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { removeCartFromDb } from '@/action/server/cart'
 import Swal from 'sweetalert2'
 
-const CartCard = ({ product }) => {
+const CartCard = ({ product,setItems }) => {
     const handleDeleteCart = async () => {
         Swal.fire({
             title: "Are you sure?",
@@ -22,8 +22,9 @@ const CartCard = ({ product }) => {
                         text: "Your file has been deleted.",
                         icon: "success"
                     });
+                    setItems((prev)=>prev.filter((item)=>item._id !== product._id))
                 } else {
-                    Swal.fire("opps", result?.message || "somthing went wrong", "error")
+                    Swal.fire("Opps", result?.message || "somthing went wrong", "error")
                 }
 
             }
