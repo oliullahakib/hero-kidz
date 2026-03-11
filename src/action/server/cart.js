@@ -2,7 +2,10 @@
 
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import { collections, dbConnect } from "@/lib/dbConnect"
+import { ObjectId } from "mongodb"
 import { getServerSession } from "next-auth"
+import { revalidatePath } from "next/cache"
+import { cache } from "react"
 const cartCollection = await dbConnect(collections.Cart)
 export const addCartTodb = async(product)=>{
     const {user} = await getServerSession(authOptions)
@@ -31,7 +34,7 @@ export const addCartTodb = async(product)=>{
         return {success: result.acknowledged}
     }
 }
-export const getCartFromDb = async()=>{
+export const getCartFromDb = cache(async()=>{
     const {user} = await getServerSession(authOptions)
     if(!user){
         return {success: false, message: "Please login first"}
@@ -39,4 +42,16 @@ export const getCartFromDb = async()=>{
     const query ={email: user.email}
     const result = await cartCollection.find(query).toArray()
     return result
+})
+export const removeCartFromDb = async(id)=>{
+    const {user} = await getServerSession(authOptions)
+    if(!user){
+        return {success: false, message: "Please login first"}
+    }
+    const query ={email: user.email, _id: new ObjectId(id)}
+    const result = await cartCollection.deleteOne(query)
+    if(Boolean(result.deletedCount)){
+        revalidatePath('/cart')
+    }
+    return {success: Boolean(result.deletedCount)}
 }
