@@ -70,9 +70,9 @@ const CartComponent = ({cartItems}) => {
                                 </div>
                             </div>
 
-                            <button className="btn btn-primary btn-block rounded-2xl h-14 text-white font-bold shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all text-lg">
+                            <Link href="/checkout" className="btn btn-primary btn-block rounded-2xl h-14 text-white font-bold shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all text-lg">
                                 Checkout Now
-                            </button>
+                            </Link>
 
                             
                         </div>
