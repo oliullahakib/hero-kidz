@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { useSession } from 'next-auth/react'
+import { createOrder } from '@/action/server/checout'
 
 const CheckoutComponent = ({ cartItems }) => {
     const session = useSession()
@@ -10,7 +11,7 @@ const CheckoutComponent = ({ cartItems }) => {
     const subtotal = items?.length > 0 ? items?.reduce((acc, item) => acc + (item.price * item.quantity), 0) : 0
     const shipping = items?.length > 0 ? 50 : 0
     const total = subtotal + shipping
-const handleDelevery= (e)=>{
+const handleDelevery= async(e)=>{
     e.preventDefault()
     const from = e.target;
     const formData = {
@@ -23,7 +24,12 @@ const handleDelevery= (e)=>{
         zipCode: from.zipCode.value,
         notes: from.notes.value,
     }
-    console.log(formData)
+    const result = await createOrder(formData)
+    if(result.success){
+        alert(result.message)
+    }else{
+        alert(result.message)
+    }
 }
     return (
         <div className="bg-base-200 min-h-screen py-10">
@@ -144,27 +150,80 @@ const handleDelevery= (e)=>{
                         {/* Order Summary */}
                         <div className="lg:col-span-4">
                             <div className="bg-base-100 rounded-3xl shadow-xl border border-base-200 p-8 sticky top-24">
-                                <h2 className="text-2xl font-black mb-8 pb-4 border-b border-base-200">Order <span className="text-primary italic">Summary</span></h2>
+                                <h2 className="text-2xl font-black mb-8 pb-4 border-b border-base-200 flex justify-between items-center">
+                                    Order <span className="text-primary italic">Summary</span>
+                                    <span className="badge badge-primary badge-outline font-bold">{items?.length} Items</span>
+                                </h2>
 
-                                <div className="space-y-4 mb-8">
-                                    <div className="flex justify-between text-base-content/60">
-                                        <span>Subtotal</span>
-                                        <span className="font-bold text-base-content">৳{subtotal.toFixed(2)}</span>
+                                {/* Product List */}
+                                <div className="max-h-72 overflow-y-auto pr-2 mb-8 space-y-4 custom-scrollbar">
+                                    {items?.map((item, index) => (
+                                        <div key={index} className="flex gap-4 items-center">
+                                            <div className="relative h-16 w-16 shrink-0 bg-base-200 rounded-xl overflow-hidden border border-base-300">
+                                                <img 
+                                                    src={item.image} 
+                                                    alt={item.name} 
+                                                    className="h-full w-full object-cover"
+                                                />
+                                               
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <h3 className="text-sm font-bold text-base-content truncate">{item.name}</h3>
+                                                <p className="text-xs text-base-content/60">{item?.quantity || 'Product'} X {item?.price}</p>
+                                            </div>
+                                            <div className="text-right">
+                                                <p className="font-bold text-sm text-base-content">৳{(item.price * item.quantity).toFixed(2)}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="divider opacity-30"></div>
+
+                                {/* Promo Code */}
+                                <div className="mb-8">
+                                    <label className="label">
+                                        <span className="label-text-alt font-bold">Promo Code</span>
+                                    </label>
+                                    <div className="join w-full">
+                                        <input className="input input-bordered join-item w-full rounded-l-2xl focus:input-primary transition-all text-sm" placeholder="Enter code" />
+                                        <button className="btn btn-primary join-item rounded-r-2xl text-white px-6">Apply</button>
                                     </div>
-                                    <div className="flex justify-between text-base-content/60">
+                                </div>
+
+                                {/* Billing Breakdown */}
+                                <div className="space-y-4 mb-8">
+                                    <div className="flex justify-between text-base-content/60 text-sm">
+                                        <span>Subtotal</span>
+                                        <span className="font-bold text-base-content whitespace-nowrap">৳{subtotal.toFixed(2)}</span>
+                                    </div>
+                                    <div className="flex justify-between text-base-content/60 text-sm">
                                         <span>Shipping</span>
-                                        <span className="font-bold text-base-content">৳{shipping.toFixed(2)}</span>
+                                        <span className="font-bold text-base-content whitespace-nowrap">৳{shipping.toFixed(2)}</span>
+                                    </div>
+                                    <div className="flex justify-between text-success text-sm">
+                                        <span>Discount</span>
+                                        <span className="font-bold whitespace-nowrap">-৳0.00</span>
                                     </div>
                                     <div className="divider opacity-30"></div>
                                     <div className="flex justify-between items-center">
                                         <span className="text-xl font-bold">Total</span>
-                                        <span className="text-3xl font-black text-primary">৳{total.toFixed(2)}</span>
+                                        <span className="text-3xl font-black text-primary whitespace-nowrap">৳{total.toFixed(2)}</span>
                                     </div>
                                 </div>
 
-
-
-
+                                <div className="p-4 bg-primary/5 rounded-2xl border border-primary/10">
+                                    <div className="flex gap-3 items-center">
+                                        <div className="p-2 bg-primary/10 rounded-full">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                        </div>
+                                        <p className="text-[11px] text-base-content/70 italic">
+                                            By completing your order, you agree to our Terms of Service and Privacy Policy.
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
