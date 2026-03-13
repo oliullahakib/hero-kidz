@@ -2,6 +2,8 @@
 import Link from 'next/link'
 import React, { useState } from 'react'
 import CartCard from './CartCard'
+import { clearAllCart } from '@/action/server/cart'
+import Swal from 'sweetalert2'
 
 const CartComponent = ({cartItems}) => {
     const [items,setItems]=useState(cartItems)
@@ -22,7 +24,15 @@ const CartComponent = ({cartItems}) => {
 
             <h1 className="text-4xl font-black  text-base-content">Shopping <span className="text-primary italic">Cart</span></h1>
             <h1 className="text-xl font-black mb-10 text-base-content">Item found <span className="text-primary italic">{items.length}</span></h1>
-
+            {/* clear all cart button */}
+            <button disabled={items.length <1 }  onClick={async()=>{
+                const res = await clearAllCart()
+                if(res.success){
+                    Swal.fire("All cart cleared successfully","success")
+                    setItems([])
+                }
+                }} className="btn btn-primary btn-lg rounded-full px-12 my-3 text-white font-bold hover:scale-105 transition-transform">Clear All</button>
+           {/* cart items */}
             {!items || (Array.isArray(items) && items.length === 0) ? (
                 <div className="bg-base-100 rounded-3xl p-20 text-center shadow-xl border border-base-300">
                     <div className="bg-primary/10 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6">
