@@ -3,6 +3,8 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import { collections, dbConnect } from "@/lib/dbConnect"
 import { getServerSession } from "next-auth"
 import { clearAllCart, getCartFromDb } from "./cart"
+import { orderInvoiceTemplate } from "@/lib/orderInvoiceTemplete"
+import { sendEmail } from "@/lib/sendEmail"
 const orderCollection = await dbConnect(collections.Order)
 export const createOrder = async (payload) => {
     const { user } = await getServerSession(authOptions)
@@ -16,6 +18,18 @@ export const createOrder = async (payload) => {
     const total = subtotal + shipping
     const newOrder = {cart,...payload,createdAt: new Date().toISOString(),total}
     const result = await orderCollection.insertOne(newOrder)
-    await clearAllCart()
+    if(Boolean(result.insertedId)){
+     await clearAllCart()
+    // 📧 Send Invoice Email
+    await sendEmail({
+      to: user.email,
+      subject: "Your Order Invoice - Hero Kidz",
+      html: orderInvoiceTemplate({
+        orderId: result.insertedId.toString(),
+        items: cart,
+        totalPrice:total,
+      }),
+    });
+    }
     return { success: Boolean(result.insertedId) }
 }
