@@ -3,34 +3,56 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { createOrder } from '@/action/server/checout'
+import Swal from 'sweetalert2'
+import { useRouter } from 'next/navigation'
 
 const CheckoutComponent = ({ cartItems }) => {
     const session = useSession()
-    console.log(session)
+    const router = useRouter()
     const [items, setItems] = useState(cartItems)
+    const [loading,setLoading]=useState(false)
     const subtotal = items?.length > 0 ? items?.reduce((acc, item) => acc + (item.price * item.quantity), 0) : 0
     const shipping = items?.length > 0 ? 50 : 0
     const total = subtotal + shipping
-const handleDelevery= async(e)=>{
-    e.preventDefault()
-    const from = e.target;
-    const formData = {
-        userName: from.userName.value,
-        userEmail: from.userEmail.value,
-        contact: from.contact.value,
-        altContact: from.altContact.value,
-        address: from.address.value,
-        city: from.city.value,
-        zipCode: from.zipCode.value,
-        notes: from.notes.value,
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
+    const handleDelevery = async (e) => {
+        e.preventDefault()
+        setLoading(true)
+        const from = e.target;
+        const formData = {
+            userName: from.userName.value,
+            userEmail: from.userEmail.value,
+            contact: from.contact.value,
+            altContact: from.altContact.value,
+            address: from.address.value,
+            city: from.city.value,
+            zipCode: from.zipCode.value,
+            notes: from.notes.value,
+        }
+
+        const result = await createOrder(formData)
+        if (result.success) {
+            Toast.fire({
+                icon: "success",
+                title: "Order Created successfully"
+            });
+            router.push("/")
+        } else {
+            Toast.fire({icon:"error",title:"Order Created Failed"})
+            router.push('/cart')
+        }
+        setLoading(false)
     }
-    const result = await createOrder(formData)
-    if(result.success){
-        alert(result.message)
-    }else{
-        alert(result.message)
-    }
-}
     return (
         <div className="bg-base-200 min-h-screen py-10">
             <div className="max-w-7xl mx-auto px-4">
@@ -140,7 +162,7 @@ const handleDelevery= async(e)=>{
                                     </div>
 
                                     <div className="mt-8">
-                                        <button type="submit" className="btn btn-primary w-full rounded-2xl text-white font-bold text-lg hover:scale-105 transition-transform">
+                                        <button disabled={items.length<1 || loading} type="submit" className="btn btn-primary w-full rounded-2xl text-white font-bold text-lg hover:scale-105 transition-transform">
                                             Pay for Cash on Delevery
                                         </button>
                                     </div>
@@ -160,12 +182,12 @@ const handleDelevery= async(e)=>{
                                     {items?.map((item, index) => (
                                         <div key={index} className="flex gap-4 items-center">
                                             <div className="relative h-16 w-16 shrink-0 bg-base-200 rounded-xl overflow-hidden border border-base-300">
-                                                <img 
-                                                    src={item.image} 
-                                                    alt={item.name} 
+                                                <img
+                                                    src={item.image}
+                                                    alt={item.name}
                                                     className="h-full w-full object-cover"
                                                 />
-                                               
+
                                             </div>
                                             <div className="flex-1 min-w-0">
                                                 <h3 className="text-sm font-bold text-base-content truncate">{item.name}</h3>

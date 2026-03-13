@@ -63,3 +63,12 @@ export const updateQuantity = async(id,quantity)=>{
     const result = await cartCollection.updateOne(query, {$inc: {quantity:quantity}})
     return {success: Boolean(result.modifiedCount)}
 }
+export const clearAllCart = async()=>{
+    const {user} = await getServerSession(authOptions)
+    if(!user){
+        return {success: false, message: "Please login first"}
+    }
+    const query ={email: user.email}
+    const result = await cartCollection.deleteMany(query)
+    return {success: Boolean(result.deletedCount)}
+}
