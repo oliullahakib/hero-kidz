@@ -14,7 +14,7 @@ const ProductCard = async({ product }) => {
     const discountedPrice = discount ? (price - (price * discount) / 100).toFixed(2) : price;
 
     return (
-        <Link href={`product-details/${product._id}`}><div className="group relative bg-base-100 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-base-200/50 hover:-translate-y-2">
+        <Link href={`product-details/${product._id}`}><div className="group relative bg-base-100 rounded-xl md:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-base-200/50 hover:-translate-y-2">
             {/* Discount Badge */}
             {discount > 0 && (
                 <div className="absolute top-4 left-4 z-10">
@@ -65,7 +65,7 @@ const ProductCard = async({ product }) => {
                 </div>
 
                 {/* Price and Action */}
-                <div className="flex items-center justify-between pt-2">
+                <div className="flex flex-col md:flex-row  items-center justify-between pt-2">
                     <div className="flex flex-col">
                         {discount > 0 && (
                             <span className="text-sm text-base-content/50 line-through">
@@ -77,7 +77,7 @@ const ProductCard = async({ product }) => {
                         </span>
                     </div>
 
-                    <AddToCartButton product={product} className="btn btn-primary btn-sm rounded-full px-5 shadow-md hover:shadow-primary/30 transition-all duration-300 hover:scale-105">
+                    <AddToCartButton product={product} className="btn btn-primary btn-sm rounded-full px-5 w-full md:w-auto shadow-md hover:shadow-primary/30 transition-all duration-300 hover:scale-105 mt-2 md:mt-0">
                         Add
                     </AddToCartButton>
                 </div>

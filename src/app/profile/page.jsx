@@ -25,7 +25,7 @@ const wishList = await getWishList();
 
                 {/* Profile Header Card */}
                 <div className="relative px-6">
-                    <div className="bg-base-100 rounded-[2.5rem] border border-base-200 shadow-xl p-8 md:p-12 relative overflow-hidden group">
+                    <div className="bg-base-100 rounded-2xl border border-base-200 shadow-xl p-8 md:p-12 relative overflow-hidden group">
                         <div className="flex flex-col md:flex-row items-center md:items-end gap-8 text-center md:text-left">
                             {/* Avatar */}
                             <div className="relative group/avatar">
@@ -38,9 +38,9 @@ const wishList = await getWishList();
                                         className="rounded-full border-4 border-base-100 object-cover"
                                     />
                                 </div>
-                                <button className="absolute bottom-2 right-2 p-3 bg-base-100 rounded-2xl shadow-lg border border-base-200 text-primary hover:bg-primary hover:text-white transition-all duration-300">
+                                {/* <button className="absolute bottom-2 right-2 p-3 bg-base-100 rounded-2xl shadow-lg border border-base-200 text-primary hover:bg-primary hover:text-white transition-all duration-300">
                                     <FaUserEdit />
-                                </button>
+                                </button> */}
                             </div>
 
                             {/* User Info */}
@@ -61,9 +61,9 @@ const wishList = await getWishList();
 
                             {/* Actions */}
                             <div className="pb-4">
-                                <button className="btn btn-primary btn-outline rounded-2xl px-8 h-12 font-black tracking-wide hover:scale-105 transition-transform">
+                                {/* <button className="btn btn-primary btn-outline rounded-2xl px-8 h-12 font-black tracking-wide hover:scale-105 transition-transform">
                                     Edit Profile
-                                </button>
+                                </button> */}
                             </div>
                         </div>
                     </div>
@@ -86,8 +86,8 @@ const wishList = await getWishList();
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
                     {/* Account Details */}
                     <div className="md:col-span-2">
-                        <div className="bg-base-100 rounded-[2.5rem] border border-base-200 shadow-xl p-8 space-y-8">
-                            <h2 className="text-2xl font-black text-base-content flex items-center gap-3">
+                        <div className="bg-base-100 rounded-2xl border border-base-200 shadow-xl p-8 space-y-8">
+                            <h2 className="text-xl md:text-2xl font-black text-base-content flex items-center gap-3">
                                 <span className="w-2 h-8 bg-primary rounded-full"></span>
                                 Account Information
                             </h2>
@@ -99,7 +99,7 @@ const wishList = await getWishList();
                                         </div>
                                         <div>
                                             <p className="text-sm font-bold text-base-content/40 uppercase tracking-widest">Full Name</p>
-                                            <p className="text-lg font-bold text-base-content">{user?.name}</p>
+                                            <p className=" font-bold text-base-content">{user?.name}</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-4 group">
@@ -108,7 +108,7 @@ const wishList = await getWishList();
                                         </div>
                                         <div>
                                             <p className="text-sm font-bold text-base-content/40 uppercase tracking-widest">Email Address</p>
-                                            <p className="text-lg font-bold text-base-content">{user?.email}</p>
+                                            <p className=" font-bold text-base-content">{user?.email}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -137,31 +137,7 @@ const wishList = await getWishList();
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    {/* Quick Settings */}
-                    <div className="space-y-8">
-                        <div className="bg-base-100 rounded-[2.5rem] border border-base-200 shadow-xl p-8">
-                            <h2 className="text-xl font-black text-base-content mb-6">Quick Actions</h2>
-                            <div className="space-y-3">
-                                <button className="btn btn-base-200 btn-block rounded-2xl h-14 font-bold border-none capitalize hover:bg-primary hover:text-white transition-all">
-                                    Manage Orders
-                                </button>
-                                <button className="btn btn-base-200 btn-block rounded-2xl h-14 font-bold border-none capitalize hover:bg-primary hover:text-white transition-all">
-                                    Security Settings
-                                </button>
-                                <button className="btn btn-base-200 btn-block rounded-2xl h-14 font-bold border-none capitalize hover:bg-primary hover:text-white transition-all">
-                                    Support Center
-                                </button>
-                            </div>
-                        </div>
-
-                        <div className="bg-primary/5 rounded-[2.5rem] border border-primary/20 p-8 text-center space-y-4">
-                            <h3 className="text-lg font-black text-primary">Need Help?</h3>
-                            <p className="text-sm text-base-content/60 font-medium">Our customer support is here 24/7 for you!</p>
-                            <Link href="/contact" className="btn btn-primary btn-sm rounded-full px-6 font-black capitalize">Contact Us</Link>
-                        </div>
-                    </div>
+                    </div>   
                 </div>
             </div>
         </div>
