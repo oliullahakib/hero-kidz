@@ -1,6 +1,7 @@
 "use server"
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import { collections, dbConnect } from "@/lib/dbConnect"
+import { ObjectId } from "mongodb"
 import { getServerSession } from "next-auth"
 const wishListCollection = await dbConnect(collections.WishList)
 export const addToWishList = async (product) => {
@@ -38,4 +39,13 @@ export const getWishList = async () => {
     const query = {email: user.email}
     const wishList = await wishListCollection.find(query).toArray()
     return wishList
+}
+export const removeWishlistFromDb = async (id,productId) => {
+    const {user} = await getServerSession(authOptions)
+    if(!user){
+        return {success: false, message: "Please login first"}
+    }
+    const query = {_id:new ObjectId(id),email: user.email,productId}
+    const result = await wishListCollection.deleteOne(query)
+    return {success: Boolean(result.deletedCount)}
 }
