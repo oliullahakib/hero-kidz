@@ -2,7 +2,7 @@ import { getToken } from 'next-auth/jwt'
 import { NextResponse } from 'next/server'
  
 // This function can be marked `async` if using `await` inside
-const privateRoute = ['/cart','/checkout','/profile']
+const privateRoute = ['/cart','/checkout','/profile','/profile/my-orders','/profile/reviews','/profile/wishlist']
 export async function proxy(req) {
     const token = await getToken({req})
     const reqUrl = req.nextUrl.pathname

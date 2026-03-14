@@ -10,10 +10,10 @@ const ProfilePage = async () => {
     const user = session?.user;
 
     const stats = [
-        { label: 'Active Orders', value: '0', icon: <FaBox className="text-secondary" />, color: 'bg-secondary/10' },
-        { label: 'Reviews', value: '0', icon: <FaStar className="text-warning" />, color: 'bg-warning/10' },
-        { label: 'Wishlist', value: '0', icon: <FaHeart className="text-error" />, color: 'bg-error/10' },
-        { label: 'Activity', value: 'High', icon: <FaHistory className="text-info" />, color: 'bg-info/10' },
+        { label: 'My Orders', value: '0', icon: <FaBox className="text-secondary" />, color: 'bg-secondary/10', href:"/profile/my-orders" },
+        { label: 'Reviews', value: '0', icon: <FaStar className="text-warning" />, color: 'bg-warning/10', href:"/profile/reviews" },
+        { label: 'Wishlist', value: '0', icon: <FaHeart className="text-error" />, color: 'bg-error/10', href:"/profile/wishlist" },
+        
     ];
 
     return (
@@ -67,15 +67,15 @@ const ProfilePage = async () => {
                 </div>
 
                 {/* Stats Grid */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 px-4">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-6 px-4">
                     {stats.map((stat, index) => (
-                        <div key={index} className="bg-base-100 rounded-3xl border border-base-200 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                        <Link href={stat?.href} key={index} className="bg-base-100 rounded-3xl border border-base-200 p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                             <div className={`${stat.color} w-12 h-12 rounded-2xl flex items-center justify-center text-xl mb-4`}>
                                 {stat.icon}
                             </div>
                             <h4 className="text-3xl font-black text-base-content">{stat.value}</h4>
                             <p className="text-base-content/50 font-bold text-sm uppercase tracking-wider">{stat.label}</p>
-                        </div>
+                        </Link>
                     ))}
                 </div>
 
