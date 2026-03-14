@@ -4,15 +4,18 @@ import { authOptions } from '../api/auth/[...nextauth]/route';
 import Image from 'next/image';
 import { FaUserEdit, FaEnvelope, FaIdBadge, FaCalendarAlt, FaStar, FaBox, FaHistory, FaHeart } from 'react-icons/fa';
 import Link from 'next/link';
+import { getMyOrders } from '@/action/server/order';
+import { getWishList } from '@/action/server/wishList';
 
 const ProfilePage = async () => {
     const session = await getServerSession(authOptions);
     const user = session?.user;
-
+const myOrders = await getMyOrders();
+const wishList = await getWishList();
     const stats = [
-        { label: 'My Orders', value: '0', icon: <FaBox className="text-secondary" />, color: 'bg-secondary/10', href:"/profile/my-orders" },
+        { label: 'My Orders', value: myOrders?.length, icon: <FaBox className="text-secondary" />, color: 'bg-secondary/10', href:"/profile/my-orders" },
         { label: 'Reviews', value: '0', icon: <FaStar className="text-warning" />, color: 'bg-warning/10', href:"/profile/reviews" },
-        { label: 'Wishlist', value: '0', icon: <FaHeart className="text-error" />, color: 'bg-error/10', href:"/profile/wishlist" },
+        { label: 'Wishlist', value: wishList?.length, icon: <FaHeart className="text-error" />, color: 'bg-error/10', href:"/profile/wishlist" },
         
     ];
 
