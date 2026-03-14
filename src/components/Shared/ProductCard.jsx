@@ -1,10 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import AddToCartButton from "../Buttons/AddToCartButton";
+import WishListBtn from "./WishListBtn";
+import { getWishList } from "@/action/server/wishList";
 
-const ProductCard = ({ product }) => {
+
+const ProductCard = async({ product }) => {
     const { title, image, price, ratings, reviews, discount } = product;
-
+    const wishList = await getWishList() 
+    const wishListIds = wishList.map((item) => ({...item,_id: item._id.toString()})); 
+      
     // Calculate discounted price if applicable
     const discountedPrice = discount ? (price - (price * discount) / 100).toFixed(2) : price;
 
@@ -18,6 +23,7 @@ const ProductCard = ({ product }) => {
                     </span>
                 </div>
             )}
+            <WishListBtn product={product} initialWishList={wishListIds} />
 
             {/* Image Container */}
             <div className="relative aspect-square overflow-hidden bg-base-200">

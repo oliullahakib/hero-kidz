@@ -8,6 +8,7 @@ export const collections = {
     Users: "users",
     Cart: "cart",
     Order: "order",
+    WishList: "wishList",
 };
 
 if (!uri) {
