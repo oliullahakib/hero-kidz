@@ -5,10 +5,11 @@ import { ObjectId } from "mongodb"
 import { getServerSession } from "next-auth"
 const wishListCollection = await dbConnect(collections.WishList)
 export const addToWishList = async (product) => {
-    const {user} = await getServerSession(authOptions)
-        if(!user){
-            return {success: false, message: "Please login first"}
-        }
+    const session = await getServerSession(authOptions)
+    if(!session || !session.user){
+        return {success: false, message: "Please login first"}
+    }
+    const user = session.user
         const query = {productId:product._id,email: user.email}
         const isProductExist = await wishListCollection.findOne(query)
         if(isProductExist){
@@ -32,19 +33,21 @@ export const addToWishList = async (product) => {
         }
 }
 export const getWishList = async () => {
-    const {user} = await getServerSession(authOptions)
-    if(!user){
-        return {success: false, message: "Please login first"}
+    const session = await getServerSession(authOptions)
+    if(!session || !session.user){
+        return []
     }
+    const user = session.user
     const query = {email: user.email}
     const wishList = await wishListCollection.find(query).toArray()
     return wishList
 }
 export const removeWishlistFromDb = async (id,productId) => {
-    const {user} = await getServerSession(authOptions)
-    if(!user){
+    const session = await getServerSession(authOptions)
+    if(!session || !session.user){
         return {success: false, message: "Please login first"}
     }
+    const user = session.user
     const query = {_id:new ObjectId(id),email: user.email,productId}
     const result = await wishListCollection.deleteOne(query)
     return {success: Boolean(result.deletedCount)}

@@ -4,16 +4,29 @@ import { useState } from 'react'
 import { addToWishList } from '@/action/server/wishList'
 import { useSession } from 'next-auth/react'
 import { usePathname, useRouter } from 'next/navigation'
+import Swal from 'sweetalert2'
 
 const WishListBtn = ({ product,initialWishList }) => {
     const session = useSession()
-    const router = useRouter()
-    const path = usePathname()
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-right",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
     const [wishlist, setWishlist] = useState([])
     const handleWishlist = async (e) => {
         e.preventDefault()
         if (session.status === "unauthenticated") {
-            router.push(`/login?callbackUrl=${path}`)
+            Toast.fire({
+                    icon: "error",
+                    title: "Please login first"
+                });
             return
         }
         if (wishlist.includes(product._id)) {
