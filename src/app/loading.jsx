@@ -2,8 +2,8 @@ import React from 'react'
 
 const loading = () => {
   return (
-    <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary">Loading...</div>
+    <div className="flex justify-center items-center min-h-screen">
+        <h1 className="animate-ping text-4xl font-bold">Loa<span className='text-primary'>ding...</span></h1>
     </div>
   )
 }
