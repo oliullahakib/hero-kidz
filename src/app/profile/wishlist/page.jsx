@@ -76,7 +76,7 @@ const WishlistPage = async() => {
                         )}
                     </div>
                     <div className="flex items-center gap-2 mt-2">
-                        <AddToCartButton productId={product.productId} className={'btn btn-primary rounded-full px-10 text-white font-bold hover:scale-105 transition-transform shadow-lg shadow-primary/30'} > <FaCartPlus/></AddToCartButton>
+                        <AddToCartButton product={{...product,_id:product.productId}} className={'btn btn-primary rounded-full px-10 text-white font-bold hover:scale-105 transition-transform shadow-lg shadow-primary/30'} > <FaCartPlus/></AddToCartButton>
                         <RemoveWishlistBtn className="btn btn-error rounded-full px-10 text-white font-bold hover:scale-105 transition-transform shadow-lg shadow-error/30" product={{...product,_id:product._id.toString()}} >
                             <FaTrash/>
                         </RemoveWishlistBtn>

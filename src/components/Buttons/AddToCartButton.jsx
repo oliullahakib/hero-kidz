@@ -9,7 +9,7 @@ import { use } from "react"
 import Swal from "sweetalert2"
 
 const AddToCartButton = ({product,children,className}) => {
-  const {setItems}=use(CartContext)
+  const {items,setItems}=use(CartContext)
   const session = useSession()
   const router = useRouter()
   const path = usePathname()
@@ -22,8 +22,12 @@ const AddToCartButton = ({product,children,className}) => {
    const result = await addCartTodb(product)
    if(result.success){
     Swal.fire('success',"Product add to cart","success")
-    console.log(result.data)
-    setItems((prev)=>[...prev,result.data])
+    const isProductExsit = items.map(item=>item.productId===product._id)
+    if(isProductExsit.includes(true)){
+      setItems(prev => prev.map(item => item.productId == product._id ? { ...item, quantity: item.quantity + 1 } : item))
+    }else{
+      setItems(prev => [...prev,result.data])
+    }
    }else{
     Swal.fire(result.message,"error")
    }

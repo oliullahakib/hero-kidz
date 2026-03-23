@@ -1,12 +1,13 @@
 "use client"
 import { FaHeart } from 'react-icons/fa'
-import { useState } from 'react'
+import { use, useState } from 'react'
 import { addToWishList } from '@/action/server/wishList'
 import { useSession } from 'next-auth/react'
-import { usePathname, useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
+import { WishListContext } from '@/context/wishList.context'
 
 const WishListBtn = ({ product,initialWishList }) => {
+    const {wishlist,setWishlist} = use(WishListContext)
     const session = useSession()
         const Toast = Swal.mixin({
             toast: true,
@@ -19,7 +20,6 @@ const WishListBtn = ({ product,initialWishList }) => {
                 toast.onmouseleave = Swal.resumeTimer;
             }
         });
-    const [wishlist, setWishlist] = useState([])
     const handleWishlist = async (e) => {
         e.preventDefault()
         if (session.status === "unauthenticated") {
@@ -34,9 +34,7 @@ const WishListBtn = ({ product,initialWishList }) => {
         } else {
             setWishlist([...wishlist, product._id])
         }
-      const result =  await addToWishList(product)
-     
-        
+      const result =  await addToWishList(product)        
     }
 
     return (

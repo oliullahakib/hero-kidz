@@ -52,8 +52,7 @@ const CartCard = ({ product, setItems }) => {
         }
         setLoading(false)
     }
-    console.log(product)
-    if (loading || !product) return <div className="flex items-center gap-6 p-6 bg-[#f5f5f5] rounded-2xl shadow animate-pulse">
+    if (!product) return <div className="flex items-center gap-6 p-6 bg-[#f5f5f5] rounded-2xl shadow animate-pulse">
 
         {/* Image */}
         <div className="w-28 h-28 bg-gray-300 rounded-xl"></div>

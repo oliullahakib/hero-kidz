@@ -1,13 +1,16 @@
 
 import CartProvider from './CartProvider'
 import AuthProviders from './AuthProviders'
+import WishListProvider from './WishListProvider'
 
 const Provider = ({ children }) => {
     return (
         <div>
             <AuthProviders>
                 <CartProvider>
-                    {children}
+                    <WishListProvider>
+                        {children}
+                    </WishListProvider>
                 </CartProvider>
             </AuthProviders>
         </div>

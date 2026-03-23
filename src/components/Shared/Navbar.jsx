@@ -1,9 +1,9 @@
 import NavLink from './NavLink'
 import Logo from './Logo'
-import Link from 'next/link'
 import AuthButtons from '../Buttons/AuthButtons'
-import { FaHeart } from 'react-icons/fa'
+
 import CartButton from '../Buttons/CartButton'
+import WishListIndicator from '../Buttons/WishListIndicator'
 
 
 const Navbar = async() => {
@@ -48,9 +48,7 @@ const Navbar = async() => {
             </div>
             <div className="navbar-end">
                 <CartButton/>
-                <Link href="/profile/wishlist">
-                    <FaHeart className='mr-5 bg-red-100 text-4xl text-red-500 p-2 rounded-md'/>
-                </Link>
+                <WishListIndicator/>
                 <AuthButtons />
             </div>
         </div>

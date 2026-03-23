@@ -20,7 +20,7 @@ const TopProducts = async () => {
 
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-4 sm:px-0">
                 {products.slice(0, 4).map((toy, index) => (
-                    <ProductCard key={index} product={toy} />
+                    <ProductCard key={index} product={{...toy,_id:toy._id.toString()}} />
                 ))}
             </div>
 

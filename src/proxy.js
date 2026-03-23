@@ -8,7 +8,7 @@ export async function proxy(req) {
     const token = await getToken({
         req,
         secret: process.env.NEXTAUTH_SECRET,
-        // secureCookie: process.env.NODE_ENV === 'production'
+        secureCookie: process.env.NODE_ENV === 'production'
     });
 
     const reqUrl = req.nextUrl.pathname;

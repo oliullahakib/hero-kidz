@@ -1,11 +1,14 @@
 "use client"
 import { removeWishlistFromDb } from "@/action/server/wishList"
+import { WishListContext } from "@/context/wishList.context"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { usePathname } from "next/navigation"
+import { use } from "react"
 import Swal from "sweetalert2"
 
 const RemoveWishlistBtn = ({ product, children, className }) => {
+    const {wishlist,setWishlist,loading} = use(WishListContext)
     const session = useSession()
     const router = useRouter()
     const path = usePathname()
@@ -32,6 +35,7 @@ const RemoveWishlistBtn = ({ product, children, className }) => {
                         icon: "success"
                     });
                     router.refresh()
+                    setWishlist((prev)=>prev.filter((item)=>item._id !== product._id))
                 } else {
                     Swal.fire(result.message, "error")
                 }
