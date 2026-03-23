@@ -1,12 +1,13 @@
 'use client'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { use, useState } from 'react'
 import CartCard from './CartCard'
 import { clearAllCart } from '@/action/server/cart'
 import Swal from 'sweetalert2'
+import { CartContext } from '@/context/cart.context'
 
 const CartComponent = ({cartItems}) => {
-    const [items,setItems]=useState(cartItems)
+    const {items,setItems,loading} = use(CartContext)
     const subtotal = items?.length > 0 ? items?.reduce((acc, item) => acc + (item.price * item.quantity), 0) : 0
     const shipping = items?.length > 0 ? 50 : 0
     const total = subtotal + shipping

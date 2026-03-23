@@ -1,15 +1,16 @@
 'use client'
 import Link from 'next/link'
-import { useState } from 'react'
+import { use, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { createOrder } from '@/action/server/checout'
 import Swal from 'sweetalert2'
 import { useRouter } from 'next/navigation'
+import { CartContext } from '@/context/cart.context'
 
 const CheckoutComponent = ({ cartItems }) => {
     const session = useSession()
     const router = useRouter()
-    const [items, setItems] = useState(cartItems)
+    const {items,setItems} = use(CartContext)
     const [loading,setLoading]=useState(false)
     const subtotal = items?.length > 0 ? items?.reduce((acc, item) => acc + (item.price * item.quantity), 0) : 0
     const shipping = items?.length > 0 ? 50 : 0
@@ -47,6 +48,7 @@ const CheckoutComponent = ({ cartItems }) => {
                 title: "Order Created successfully"
             });
             router.push("/")
+            setItems([])
         } else {
             Toast.fire({icon:"error",title:"Order Created Failed"})
             router.push('/cart')

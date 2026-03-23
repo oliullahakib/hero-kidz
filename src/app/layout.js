@@ -3,7 +3,8 @@ import "./globals.css";
 import Navbar from "@/components/Shared/Navbar";
 import localFont from 'next/font/local'
 import Footer from "@/components/Shared/Footer";
-import AuthProviders from "@/providers/AuthProviders";
+
+import Provider from "@/providers/Provider";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -20,18 +21,18 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <AuthProviders>
-    <html lang="en">
-      <body
-        className={`${poppins.variable}  antialiased`}
-      >
-        <Navbar />
-       <div className="max-w-7xl mx-auto">
-         {children}
-       </div>
-       <Footer/>
-      </body>
-    </html>
-    </AuthProviders>
+    <Provider>
+      <html lang="en">
+        <body
+          className={`${poppins.variable}  antialiased`}
+        >
+          <Navbar />
+          <div className="max-w-7xl mx-auto">
+            {children}
+          </div>
+          <Footer />
+        </body>
+      </html>
+    </Provider>
   );
 }

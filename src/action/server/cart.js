@@ -30,7 +30,7 @@ export const addCartTodb = async(product)=>{
             
         }
         const result = await cartCollection.insertOne(newProduct)
-        return {success: result.acknowledged}
+        return {success: result.acknowledged,data:newProduct}
     }
 }
 export const getCartFromDb = cache(async()=>{

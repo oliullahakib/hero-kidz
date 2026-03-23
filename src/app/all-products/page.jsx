@@ -6,6 +6,12 @@ import React from 'react'
 const AllProductsPage = async({searchParams}) => {
   const {search} = await searchParams
   const products = await getAllProducts(search)
+      const formatedData = products?.map(item=>{
+        return {
+            ...item,
+            _id: item._id.toString()
+        }
+    })
   return (
     <div className='pb-10'>
       <div className='flex flex-col-reverse md:flex-row my-5  items-center gap-5'>
@@ -14,7 +20,7 @@ const AllProductsPage = async({searchParams}) => {
             </div>
      
     <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-2 sm:px-0'>
-      {products.map((product) => (
+      {formatedData.map((product) => (
         <div key={product._id}>
           <ProductCard product={product} />
         </div>
