@@ -9,7 +9,6 @@ const ProductCard = async({ product }) => {
     const { title, image, price, ratings, reviews, discount } = product;
     const wishList = await getWishList() 
     const wishListIds = wishList.map((item) => ({...item,_id: item._id.toString()})); 
-    console.log(product)
     // Calculate discounted price if applicable
     const discountedPrice = discount ? (price - (price * discount) / 100).toFixed(2) : price;
 

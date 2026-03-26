@@ -12,8 +12,6 @@ const SearchProducts = () => {
         }else{
             newParams.delete('search')
         }
-        // console.log(newParams.toString())
-        // console.log(e.target.search.value)
         router.push(`/all-products?${newParams.toString()}`)
     }
     return (
