@@ -31,10 +31,11 @@ Hero Kidz is a modern, fast, single vendor and secure e-commerce web application
 
 ## 📸 Preview
 
-### Homepage
-![Homepage Preview](https://i.ibb.co.com/0yXwXP4s/all-products-Page.png)
 
 ### All Products
+![Homepage Preview](https://i.ibb.co.com/0yXwXP4s/all-products-Page.png)
+
+### Homepage
 ![All Products Preview](https://i.ibb.co.com/XkK057C1/homepage.png)
 
 ## 🚀 How to Start This Project
