@@ -2,7 +2,34 @@ import { getSingleProduct } from '@/action/server/products'
 import AddToCartButton from '@/components/Buttons/AddToCartButton'
 import Image from 'next/image'
 import React from 'react'
-import { FaStar, FaShoppingBag, FaTruck, FaShieldAlt, FaUndo, FaYoutube } from 'react-icons/fa'
+import { FaStar, FaShoppingBag, FaShieldAlt, FaUndo } from 'react-icons/fa'
+
+export async function generateMetadata({ params }) {
+    const { id } = await params;
+    const product = await getSingleProduct(id);
+
+    if (!product) {
+        return {
+            title: "Product Not Found | Hero Kidz",
+            icons: {
+                icon: "https://i.ibb.co.com/MxfwC02d/logo.png",
+            },
+        };
+    }
+
+    return {
+        title: `${product.title} | Hero Kidz`,
+        description: product.description?.substring(0, 160) || "Explore this amazing product at Hero Kidz.",
+        openGraph: {
+            title: product.title,
+            description: product.description?.substring(0, 160) || "Explore this amazing product at Hero Kidz.",
+            images: [product.image || "https://i.ibb.co.com/MxfwC02d/logo.png"],
+        },
+        icons: {
+            icon: "https://i.ibb.co.com/MxfwC02d/logo.png",
+        },
+    };
+}
 
 const ProductDetails = async ({ params }) => {
     const { id } = await params
@@ -86,7 +113,6 @@ const ProductDetails = async ({ params }) => {
                                     </p>
                                 )}
                             </div>
-
                             <div className="flex items-center gap-6">
                                 <div className="flex items-center gap-2">
                                     <div className="flex text-warning">
