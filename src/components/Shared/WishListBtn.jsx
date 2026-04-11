@@ -1,10 +1,10 @@
 "use client"
 import { FaHeart } from 'react-icons/fa'
 import { use, useState } from 'react'
-import { addToWishList } from '@/action/server/wishList'
 import { useSession } from 'next-auth/react'
 import Swal from 'sweetalert2'
 import { WishListContext } from '@/context/wishList.context'
+import { addToWishList } from '@/action/server/wishList'
 
 const WishListBtn = ({ product,initialWishList }) => {
     const {wishlist,setWishlist} = use(WishListContext)

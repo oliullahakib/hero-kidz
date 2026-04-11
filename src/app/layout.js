@@ -1,8 +1,6 @@
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Shared/Navbar";
 import localFont from 'next/font/local'
-import Footer from "@/components/Shared/Footer";
 
 import Provider from "@/providers/Provider";
 
@@ -26,11 +24,7 @@ export default function RootLayout({ children }) {
         <body
           className={`${poppins.variable}  antialiased`}
         >
-          <Navbar />
-          <div className="max-w-7xl mx-auto">
-            {children}
-          </div>
-          <Footer />
+          {children}
         </body>
       </html>
     </Provider>

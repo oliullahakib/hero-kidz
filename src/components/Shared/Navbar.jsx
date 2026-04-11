@@ -4,15 +4,22 @@ import AuthButtons from '../Buttons/AuthButtons'
 
 import CartButton from '../Buttons/CartButton'
 import WishListIndicator from '../Buttons/WishListIndicator'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 
 
 const Navbar = async() => {
+    const session = await getServerSession(authOptions)
+    const user = session?.user
     const links = [
         {href: "/", label: "Home"},
         {href: "/about", label: "About"},
         {href: "/all-products", label: "All Products"},
         {href: "/contact", label: "Contact"},
     ]
+    if(user?.role === 'admin'){
+        links.push({href: "/dashboard", label: "Dashboard"})
+    }
     return (
         <div className="bg-base-100 shadow-sm sticky top-0 z-50 ">
             <div className="navbar  max-w-7xl mx-auto">
