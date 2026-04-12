@@ -2,10 +2,12 @@
 
 import { FiMenu, FiBell } from "react-icons/fi";
 import { useSidebar } from "@/providers/SidebarContext";
+import { useSession } from "next-auth/react";
+
 
 const DashboardNavbar = () => {
   const { toggleSidebar } = useSidebar();
-
+const session = useSession()
   return (
     <div className="navbar bg-base-100 shadow-sm border-b border-base-200 px-4 sticky top-0 z-50">
       {/* Mobile Menu Toggle (Drawer) & Desktop Menu Toggle (Sidebar Width) */}
@@ -35,7 +37,7 @@ const DashboardNavbar = () => {
             <div className="w-9 rounded-full">
               <img
                 alt="Admin Profile"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" 
+                src={session?.data?.user?.image || "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png"} 
               />
             </div>
           </div>

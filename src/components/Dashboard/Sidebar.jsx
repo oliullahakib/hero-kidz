@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FiHome, FiBox, FiShoppingCart, FiUsers, FiSettings, FiLogOut } from "react-icons/fi";
+import { FiHome, FiBox, FiShoppingCart, FiUsers, FiLogOut } from "react-icons/fi";
 import { useSidebar } from "@/providers/SidebarContext";
 
 const Sidebar = () => {
@@ -13,7 +13,6 @@ const Sidebar = () => {
     { name: "Products", href: "/dashboard/products", icon: FiBox },
     { name: "Orders", href: "/dashboard/orders", icon: FiShoppingCart },
     { name: "Users", href: "/dashboard/users", icon: FiUsers },
-    { name: "Settings", href: "/dashboard/settings", icon: FiSettings },
   ];
 
   return (
