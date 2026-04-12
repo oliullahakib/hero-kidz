@@ -16,10 +16,17 @@ export async function proxy(req) {
     const session = await getServerSession(authOptions)
     const role = session?.user?.role
     const isAdmin = role === 'admin'
+    const isBlocked = session?.user?.isBlocked
     const reqUrl = req.nextUrl.pathname;
     const isPrivate = privateRoute.some(route => reqUrl.startsWith(route));
     const isAdminRoute = adminRoute.some(route => reqUrl.startsWith(route));
 
+    if (isBlocked) {
+        return NextResponse.redirect(new URL(`/blocked`, req.url));
+    }
+    if (!token && isPrivate) {
+        return NextResponse.redirect(new URL(`/login?callbackUrl=${reqUrl}`, req.url));
+    }
     if (!token && isPrivate) {
         return NextResponse.redirect(new URL(`/login?callbackUrl=${reqUrl}`, req.url));
     }
@@ -33,5 +40,5 @@ export async function proxy(req) {
 }
 
 export const config = {
-    matcher: ['/cart/:path*', '/checkout/:path*', '/profile/:path*', '/dashboard/:path*'],
+    matcher: ['/','/about/:path*','/contact/:path*','/all-products/:path*','/cart/:path*', '/checkout/:path*', '/profile/:path*', '/dashboard/:path*'],
 }

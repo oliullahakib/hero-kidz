@@ -11,6 +11,7 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 const Navbar = async() => {
     const session = await getServerSession(authOptions)
     const user = session?.user
+    console.log(user)
     const links = [
         {href: "/", label: "Home"},
         {href: "/about", label: "About"},

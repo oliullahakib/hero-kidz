@@ -65,6 +65,7 @@ export const authOptions = {
         },
         async session({ session, token, user }) {
             session.user.role = token.role;
+            session.user.isBlocked = token.isBlocked;
             return session
         },
         async jwt({ token, user, account, profile, isNewUser }) {
@@ -72,6 +73,11 @@ export const authOptions = {
                 const userExist = await db.findOne({email: token.email});
                 if (userExist) {
                     token.role = userExist.role;
+                    const collection = await dbConnect(collections.Blocklist);
+                    const isBlocked = await collection.findOne({email: token.email});
+                    if (isBlocked) {
+                        token.isBlocked = true;
+                    }
                 }
             return token
         }

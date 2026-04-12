@@ -9,6 +9,7 @@ export const collections = {
     Cart: "cart",
     Order: "order",
     WishList: "wishList",
+    Blocklist: "blocklist",
 };
 
 if (!uri) {

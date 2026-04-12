@@ -38,3 +38,39 @@ export const updateUserRole = async (userId, newRole) => {
         return { success: false, error: error.message };
     }
 }
+
+export const getBlocklist = async () => {
+    try {
+        const result = await (await dbConnect(collections.Blocklist)).find({}).toArray();
+        return result.map(doc => doc.email);
+    } catch (error) {
+        console.error("Error fetching blocklist:", error);
+        return [];
+    }
+}
+
+export const toggleUserBlock = async (email, block) => {
+    // verify user is admin 
+    const session = await getServerSession(authOptions)
+    const role = session?.user?.role
+    const isAdmin = role === 'admin'
+    if (!isAdmin) {
+        return { success: false, error: "You are not authorized to block/unblock users" };
+    }
+    
+    try {
+        const collection = await dbConnect(collections.Blocklist);
+        if (block) {
+            // Block user: insert email if it doesn't exist
+            await collection.updateOne({ email }, { $set: { email } }, { upsert: true });
+        } else {
+            // Unblock user: remove email from blocklist
+            await collection.deleteOne({ email });
+        }
+        revalidatePath("/dashboard/users");
+        return { success: true };
+    } catch (error) {
+        console.error("Error toggling block status:", error);
+        return { success: false, error: error.message };
+    }
+}
